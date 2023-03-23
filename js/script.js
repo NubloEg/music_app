@@ -1,5 +1,5 @@
 let number_sound=1;
-let audio=new Audio(`/music/${number_sound}.mp3`);;
+let audio=new Audio(`/music/${number_sound}.mp3`);
 let audio_old;
 let sound={
     1:{
@@ -36,6 +36,8 @@ let next_sound=1;
 const allLogo=document.querySelectorAll('.logo')
 const player__image=document.querySelector('.player__image')
 const cicle__icon=document.querySelector('.cicle__icon')
+let random=false;
+let old_sound='';
 
 
 /* Аудио */
@@ -99,41 +101,45 @@ const changeNowTime=(time)=>{
 
 loop_btn.addEventListener('click',()=>{
     loop_btn.classList.toggle('active')
+    random_btn.classList.remove('active')
+    random=false;
+
     if (loop_btn.classList.contains('active')){
         next_sound=0;
-        loop_count==1
     }else{
         next_sound=1;
-        loop_count==0
     }
 })
 
 
-
 const nextSound=(bool)=>{
-    
-    changeInfo()
-    if(bool){
-        if (number_sound==Object.keys(sound).length) {
-            if (next_sound!==0){
-                number_sound=1
-            }
-        
-        }else{
-            number_sound+=next_sound
-        }
+   
+    if (random) {
+        randomSound()
     }else{
-        
-        if (number_sound==1) {
-            if (next_sound!==0){
-                number_sound=Object.keys(sound).length
+        if(bool){
+            if (number_sound==Object.keys(sound).length) {
+                if (next_sound!==0){
+                    number_sound=1
+                }
+            
+            }else{
+                number_sound+=next_sound
             }
-        
         }else{
-            number_sound-=next_sound
+            
+            if (number_sound==1) {
+                if (next_sound!==0){
+                    number_sound=Object.keys(sound).length
+                }
+            
+            }else{
+                number_sound-=next_sound
+            }
         }
+    
     }
-
+   
 }
 
 /* Рандом */
@@ -143,19 +149,26 @@ function randomInteger(min, max) {
     return Math.floor(rand);
   }
   random_btn.addEventListener('click',()=>{
-    debugger
-    
+    loop_btn.classList.remove('active')
+    next_sound=1;
     if (random_btn.classList.contains('active')) {
-        
+        random=false;
+        number_sound=old_sound;
     }else{
+        random=true;
+        old_sound=number_sound;
         randomSound()
     }
     random_btn.classList.toggle('active')
 })
 
 const randomSound=()=>{
-    number_sound=randomInteger(1,Object.keys(sound). length)
-    
+    let rand=randomInteger(1,Object.keys(sound). length)
+    if (rand==number_sound) {
+        randomSound()
+    }else{
+        number_sound=rand
+    }
 }
 
 /* Переключение музыки */
@@ -176,10 +189,6 @@ right.addEventListener('click',()=>{
     
 })
 
-
-
-
-
 /* Старт/стоп музыка */
 btn_play.addEventListener('click',()=>{
     startSound(true)
@@ -187,23 +196,29 @@ btn_play.addEventListener('click',()=>{
 
 const startSound=(bool)=>{
     debugger
-    if (random_btn.classList.contains('active')) {
-        randomSound()
-    }else{
-        
-    }
-    
+   
     if(audio_old!=audio){
+        if (random_btn.classList.contains('active')) {
+            audio=new Audio(`/music/${number_sound}.mp3`);
+        }else{
+            
+        }
+        
         preparation()
          /* Эвент окончания трека */
         audio.addEventListener('ended',()=>{
+            if (random_btn.classList.contains('active')) {
+                randomSound()
+            }else{
+                
+            }
             nextSound(true)
             audio=new Audio(`/music/${number_sound}.mp3`);
             startSound(false)
-        
+            
         })
     }
-    
+    changeInfo()
    if (bool) {
     if(cicle__icon.classList.contains('play')){
         play()
@@ -222,7 +237,6 @@ const startSound=(bool)=>{
 const play=()=>{
         audio.play()
         h1.remove()
-        changeInfo()
         loop()
         cicle__icon.classList.remove('play')
         cicle__icon.src='/img/player/pause.svg'
@@ -230,7 +244,6 @@ const play=()=>{
 
 const stop=()=>{
     audio.pause()
-        changeInfo()
         cicle__icon.classList.add('play')
         cicle__icon.src='/img/player/play.svg'
 }
