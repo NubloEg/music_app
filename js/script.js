@@ -4,15 +4,24 @@ let audio_old;
 let sound={
     1:{
     image:'/img/splin.jpg',
-    text:'сплин'
+    text:['Возьми себя в руки, дочь самурая! Возьми себя в руки. Становятся тихими звуки от края до края.',
+    'Возьми себя в руки, дочь самурая! Возьми себя в руки. От края до края становятся тихими звуки.',
+        'Я буду смеяться до тех пор, пока не взорвётся моя голова. Я буду смеяться пока голова не взорвётся.',
+       'Я буду смеяться до тех пор пока не взорвётся моя голова. На океаны и острова.']
     },
     2:{
         image:'/img/kaj.jpg',
-        text:'киш'
+        text:['Возьми себя в руки, дочь самурая! Возьми себя в руки. Становятся тихими звуки от края до края.',
+        'Возьми себя в руки, дочь самурая! Возьми себя в руки. От края до края становятся тихими звуки.',
+            'Я буду смеяться до тех пор, пока не взорвётся моя голова. Я буду смеяться пока голова не взорвётся.',
+            'Я буду смеяться до тех пор пока не взорвётся моя голова. На океаны и острова.']
     },
     3:{
         image:'/img/scrip.jpg',
-        text:'скриптонит'
+        text:['Возьми себя в руки, дочь самурая! Возьми себя в руки. Становятся тихими звуки от края до края.',
+        'Возьми себя в руки, дочь самурая! Возьми себя в руки. От края до края становятся тихими звуки.',
+            'Я буду смеяться до тех пор, пока не взорвётся моя голова. Я буду смеяться пока голова не взорвётся.',
+            'Я буду смеяться до тех пор пока не взорвётся моя голова. На океаны и острова.']
     },
 
 }
@@ -177,6 +186,7 @@ left.addEventListener('click',()=>{
     nextSound(false)
     audio.pause()
     audio=new Audio(`/music/${number_sound}.mp3`);
+    changeInfo()
     startSound(false)
 })
 
@@ -185,6 +195,7 @@ right.addEventListener('click',()=>{
     nextSound(true)
     audio.pause()
     audio=new Audio(`/music/${number_sound}.mp3`);
+    changeInfo()
     startSound(false)
     
 })
@@ -195,11 +206,12 @@ btn_play.addEventListener('click',()=>{
 })
 
 const startSound=(bool)=>{
-    debugger
-   
+    
+  
     if(audio_old!=audio){
         if (random_btn.classList.contains('active')) {
             audio=new Audio(`/music/${number_sound}.mp3`);
+            changeInfo()
         }else{
             
         }
@@ -214,11 +226,12 @@ const startSound=(bool)=>{
             }
             nextSound(true)
             audio=new Audio(`/music/${number_sound}.mp3`);
+            changeInfo()
             startSound(false)
             
         })
     }
-    changeInfo()
+    
    if (bool) {
     if(cicle__icon.classList.contains('play')){
         play()
@@ -289,6 +302,6 @@ const changeInfo=()=>{
     time__all.innerHTML=`${Math.floor(audio.duration/60)}:${Math.floor(audio.duration%60)}`
     range.max=audio.duration;
 }
-
+changeInfo()
 
 
