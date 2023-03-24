@@ -7,21 +7,24 @@ let sound={
     text:['Возьми себя в руки, дочь самурая! Возьми себя в руки. Становятся тихими звуки от края до края.',
     'Возьми себя в руки, дочь самурая! Возьми себя в руки. От края до края становятся тихими звуки.',
         'Я буду смеяться до тех пор, пока не взорвётся моя голова. Я буду смеяться пока голова не взорвётся.',
-       'Я буду смеяться до тех пор пока не взорвётся моя голова. На океаны и острова.']
+       'Я буду смеяться до тех пор пока не взорвётся моя голова. На океаны и острова.'],
+       duration:'216'
     },
     2:{
         image:'/img/kaj.jpg',
         text:['Возьми себя в руки, дочь самурая! Возьми себя в руки. Становятся тихими звуки от края до края.',
         'Возьми себя в руки, дочь самурая! Возьми себя в руки. От края до края становятся тихими звуки.',
             'Я буду смеяться до тех пор, пока не взорвётся моя голова. Я буду смеяться пока голова не взорвётся.',
-            'Я буду смеяться до тех пор пока не взорвётся моя голова. На океаны и острова.']
+            'Я буду смеяться до тех пор пока не взорвётся моя голова. На океаны и острова.'],
+            duration:'117'
     },
     3:{
         image:'/img/scrip.jpg',
         text:['Возьми себя в руки, дочь самурая! Возьми себя в руки. Становятся тихими звуки от края до края.',
         'Возьми себя в руки, дочь самурая! Возьми себя в руки. От края до края становятся тихими звуки.',
             'Я буду смеяться до тех пор, пока не взорвётся моя голова. Я буду смеяться пока голова не взорвётся.',
-            'Я буду смеяться до тех пор пока не взорвётся моя голова. На океаны и острова.']
+            'Я буду смеяться до тех пор пока не взорвётся моя голова. На океаны и острова.'],
+            duration:'282'
     },
 
 }
@@ -52,7 +55,7 @@ let old_sound='';
 /* Аудио */
 const num = 32;
 const array = new Uint8Array(num*2);
-const width = 25;
+
 
 /* Создание аудио эквалайзера */
 function preparation(){
@@ -64,7 +67,6 @@ function preparation(){
     analyser.connect(context.destination)
     allLogo.forEach(logo=>{
         logo.style.background = '#A33247';
-        logo.style.minWidth = width+'px';
         logo.style.display='block'
     })
     loop();
@@ -186,7 +188,7 @@ left.addEventListener('click',()=>{
     nextSound(false)
     audio.pause()
     audio=new Audio(`/music/${number_sound}.mp3`);
-    changeInfo()
+    
     startSound(false)
 })
 
@@ -195,7 +197,7 @@ right.addEventListener('click',()=>{
     nextSound(true)
     audio.pause()
     audio=new Audio(`/music/${number_sound}.mp3`);
-    changeInfo()
+    
     startSound(false)
     
 })
@@ -206,18 +208,17 @@ btn_play.addEventListener('click',()=>{
 })
 
 const startSound=(bool)=>{
-    
+    debugger
   
     if(audio_old!=audio){
         if (random_btn.classList.contains('active')) {
             audio=new Audio(`/music/${number_sound}.mp3`);
-            changeInfo()
+            
         }else{
             
         }
-        
         preparation()
-         /* Эвент окончания трека */
+        /* Эвент окончания трека */
         audio.addEventListener('ended',()=>{
             if (random_btn.classList.contains('active')) {
                 randomSound()
@@ -226,12 +227,12 @@ const startSound=(bool)=>{
             }
             nextSound(true)
             audio=new Audio(`/music/${number_sound}.mp3`);
-            changeInfo()
+            
             startSound(false)
             
         })
     }
-    
+    changeInfo()
    if (bool) {
     if(cicle__icon.classList.contains('play')){
         play()
@@ -295,13 +296,12 @@ swap_left.addEventListener('click',()=>{
 /* Изменить картинку и текс */
 
 const changeInfo=()=>{
-    
     audio_old=audio;
     player__image.src=sound[number_sound].image
     fun__txt.innerHTML=sound[number_sound].text
-    time__all.innerHTML=`${Math.floor(audio.duration/60)}:${Math.floor(audio.duration%60)}`
-    range.max=audio.duration;
+    time__all.innerHTML=changeNowTime(sound[number_sound].duration)
+    range.max=sound[number_sound].duration
 }
-changeInfo()
+
 
 

@@ -253,13 +253,17 @@ h1,h2, h3, h4, h5, h6{font-style: inherit; font-weight: 400;}
 	height: 100%;
 	display: none;
 	align-items:center;
-	
+	justify-content: center;
+	width: 100%;
 }
 
 .logo{
 	display:none;
 	border:1px solid black;
 	border-radius:10px;
+	max-width: 25px;
+	min-width: 5px;
+	width: 100%;
 }
 
 @media(max-width:1600px){
