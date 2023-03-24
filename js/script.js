@@ -208,7 +208,7 @@ btn_play.addEventListener('click',()=>{
 })
 
 const startSound=(bool)=>{
-    debugger
+    
   
     if(audio_old!=audio){
         if (random_btn.classList.contains('active')) {
@@ -283,7 +283,7 @@ swap_right.addEventListener('click',()=>{
 /* Эквалайзер */
 
 swap_left.addEventListener('click',()=>{
-    debugger
+   
     if(swap==1){
         document.querySelector('.point__left').classList.add('active')
         document.querySelector('.point__right').classList.remove('active')
